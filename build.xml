@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!DOCTYPE project>
+
+<project name="hl7aECG" basedir="." default="generateJarFiles">
+	
+	<property name="liferay" value="/opt/liferay" />
+	
+	<property name="portlet-ext" value="${liferay}/portlet-ext"/>
+	<property file="${liferay}/liferay-plugins-sdk-6.1.1/build.${user.name}.properties" />
+	<property name="dependencies" value="${liferay}/projects-dependencies" />
+	<property name="tomcat-axis-lib" value="${app.server.deploy.dir}/axis2/WEB-INF/lib"/>
+	
+	<target name="clean">
+		<echo>Clean the temporary area</echo>
+		<delete dir="build"/>
+	</target>
+	
+	<target name="generateJarFiles" depends="clean">
+		
+		<echo>Create the temporary area</echo>
+		<mkdir dir="build"/>
+		<mkdir dir="build/class"/>
+		<mkdir dir="build/dist"/>
+		
+		<javac target="1.5" srcdir="src" destdir="build/class" debug="on" debuglevel="lines,vars,source" />
+		
+		<jar destfile="build/dist/${ant.project.name}.jar" basedir="build/class">
+			<include name="**/**"/>
+		</jar>
+		
+		<mkdir dir="${dependencies}/ECG_Converter4-dependencies"/>
+		<mkdir dir="${dependencies}/cvrg-broker-service-dependencies"/>
+		
+		<copy todir="${dependencies}/ECG_Converter4-dependencies" file="build/dist/schiller-data.jar" />
+		<copy todir="${dependencies}/cvrg-broker-service-dependencies" file="build/dist/schiller-data.jar" />
+		<copy todir="${tomcat-axis-lib}" file="build/dist/${ant.project.name}.jar" />
+	</target>
+	
+	<!-- ================================= 
+          target: local-server-deploy              
+         ================================= -->
+    <target name="local-server-deploy" description="Move the generated jar to the local server.">
+    	<delete>
+			<fileset dir="${app.server.lib.global.dir}">
+			    <include name="${ant.project.name}-*.jar"/>
+			</fileset>
+		</delete>
+
+    	<copy todir="${app.server.lib.global.dir}" file="target/${ant.project.name}-${project.version}.jar" />        
+    </target>
+
+</project>

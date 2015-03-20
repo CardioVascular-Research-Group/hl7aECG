@@ -1,7 +1,29 @@
 package org.cvrgrid.hl7aecg;
+/*
+Copyright 2015 Johns Hopkins University Institute for Computational Medicine
 
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+/**
+* @author Andre Vilardo, Chris Jurado
+* 
+*/
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -20,6 +42,8 @@ import junit.framework.TestSuite;
 public class AppTest 
     extends TestCase
 {
+	
+	final String HL7AECG_INPUT_FILE_PATH = "/hl7aecg-Example2.xml";
     /**
      * Create the test case
      *
@@ -47,15 +71,42 @@ public class AppTest
     	try {
 			Hl7Ecg hl7 = new Hl7Ecg();
 			
-			hl7.preprocess(new File("/mnt/hgfs/Dropbox (JHU-CVRG)/data/HL7aECG_examples/Example2.xml"));
+			URL resourceUrl = getClass().getResource(HL7AECG_INPUT_FILE_PATH);
+			File file = new File(resourceUrl.toURI());
+			hl7.preprocess(file);
+//			hl7.preprocess(new File("/mnt/hgfs/Dropbox (JHU-CVRG)/data/HL7aECG_examples/Example2.xml"));
 			
-		} catch (JAXBException e) {
+		} catch (URISyntaxException e) {
+
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+
+			e.printStackTrace();
+		} catch (JAXBException e) {
+
 			e.printStackTrace();
 		}
     	
         assertTrue( true );
+    }
+    
+    //CRJ Test InputStream processing
+    public void testInputStream()
+    {
+    	boolean result = false;
+    	
+    	try {
+//			File inputFile = new File(HL7AECG_INPUT_FILE_PATH);
+			InputStream inputStream = getClass().getResourceAsStream(HL7AECG_INPUT_FILE_PATH);
+			Hl7Ecg.preprocess(inputStream);
+			result = true;
+			
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	
+        assertTrue(result);
     }
 }

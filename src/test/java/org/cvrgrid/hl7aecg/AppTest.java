@@ -19,18 +19,12 @@ limitations under the License.
 * 
 */
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-
-import org.cvrgrid.hl7aecg.jaxb.beans.PORTMT020001AnnotatedECG;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

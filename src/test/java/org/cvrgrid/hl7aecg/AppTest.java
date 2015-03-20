@@ -69,13 +69,11 @@ public class AppTest
     {
     	
     	try {
-			Hl7Ecg hl7 = new Hl7Ecg();
-			
+
 			URL resourceUrl = getClass().getResource(HL7AECG_INPUT_FILE_PATH);
 			File file = new File(resourceUrl.toURI());
-			hl7.preprocess(file);
-//			hl7.preprocess(new File("/mnt/hgfs/Dropbox (JHU-CVRG)/data/HL7aECG_examples/Example2.xml"));
-			
+			Hl7Ecg.preprocess(file);
+		
 		} catch (URISyntaxException e) {
 
 			e.printStackTrace();
@@ -96,7 +94,6 @@ public class AppTest
     	boolean result = false;
     	
     	try {
-//			File inputFile = new File(HL7AECG_INPUT_FILE_PATH);
 			InputStream inputStream = getClass().getResourceAsStream(HL7AECG_INPUT_FILE_PATH);
 			Hl7Ecg.preprocess(inputStream);
 			result = true;

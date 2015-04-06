@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE project>
 
-<project name="hl7aECG" basedir="." default="generateJarFiles">
+<project name="hl7aECG" basedir="." default="local-server-deploy">
 	
 	<property name="liferay" value="/opt/liferay" />
 	
@@ -13,27 +13,6 @@
 	<target name="clean">
 		<echo>Clean the temporary area</echo>
 		<delete dir="build"/>
-	</target>
-	
-	<target name="generateJarFiles" depends="clean">
-		
-		<echo>Create the temporary area</echo>
-		<mkdir dir="build"/>
-		<mkdir dir="build/class"/>
-		<mkdir dir="build/dist"/>
-		
-		<javac target="1.5" srcdir="src" destdir="build/class" debug="on" debuglevel="lines,vars,source" />
-		
-		<jar destfile="build/dist/${ant.project.name}.jar" basedir="build/class">
-			<include name="**/**"/>
-		</jar>
-		
-		<mkdir dir="${dependencies}/ECG_Converter4-dependencies"/>
-		<mkdir dir="${dependencies}/cvrg-broker-service-dependencies"/>
-		
-		<copy todir="${dependencies}/ECG_Converter4-dependencies" file="build/dist/schiller-data.jar" />
-		<copy todir="${dependencies}/cvrg-broker-service-dependencies" file="build/dist/schiller-data.jar" />
-		<copy todir="${tomcat-axis-lib}" file="build/dist/${ant.project.name}.jar" />
 	</target>
 	
 	<!-- ================================= 

@@ -24,15 +24,20 @@ import org.cvrgrid.hl7aecg.jaxb.beans.PORTMT020001Component9;
 
 public class HL7PreprocessReturn {
 
-	private List<PORTMT020001Component9> components;
+	private Hl7EcgLeadData leadData;
+	private int leadCount;
 	
 	public HL7PreprocessReturn(List<PORTMT020001Component9> c9s) {
-		components = c9s;
+		leadData = new Hl7EcgLeadData(c9s);
+		leadCount = c9s.size() -1;
 	}
 
-	public List<PORTMT020001Component9> getComponents() {
-		return components;
+	public int getLeadCount() {
+		return leadCount;
 	}
-	
-	
+
+	public Hl7EcgLeadData getLeadData() {
+		return leadData;
+	}
+
 }

@@ -34,35 +34,29 @@ public class Hl7Ecg {
 
 	private static HL7PreprocessReturn preprocess(JAXBContext context, File input) throws JAXBException, IOException {
 		Unmarshaller reader = context.createUnmarshaller();
+		@SuppressWarnings("unchecked")
 		PORTMT020001AnnotatedECG ecg = ((JAXBElement<PORTMT020001AnnotatedECG>)reader.unmarshal(input)).getValue();
-		
 		List<PORTMT020001Component9> components = ecg.getComponent().get(0).getSeries().getComponent().get(0).getSequenceSet().getComponent();
-		
 		HL7PreprocessReturn temp = new HL7PreprocessReturn(components);
-		
 		return temp;
 	}
 	
 	public static HL7PreprocessReturn preprocess(File input) throws IOException, JAXBException {
 		JAXBContext context = JAXBContext.newInstance(PORTMT020001AnnotatedECG.class.getPackage().getName());
-		
 		return preprocess(context, input);
 	}
 	
 	private static HL7PreprocessReturn preprocess(JAXBContext context, InputStream inputStream) throws JAXBException, IOException {
 		Unmarshaller reader = context.createUnmarshaller();
+		@SuppressWarnings("unchecked")
 		PORTMT020001AnnotatedECG ecg = ((JAXBElement<PORTMT020001AnnotatedECG>)reader.unmarshal(inputStream)).getValue();
-		
 		List<PORTMT020001Component9> components = ecg.getComponent().get(0).getSeries().getComponent().get(0).getSequenceSet().getComponent();
-		
 		HL7PreprocessReturn temp = new HL7PreprocessReturn(components);
-		
 		return temp;
 	}
 	
 	public static HL7PreprocessReturn preprocess(InputStream inputStream) throws IOException, JAXBException {
 		JAXBContext context = JAXBContext.newInstance(PORTMT020001AnnotatedECG.class.getPackage().getName());
-		
 		return preprocess(context, inputStream);
 	}	
 }
